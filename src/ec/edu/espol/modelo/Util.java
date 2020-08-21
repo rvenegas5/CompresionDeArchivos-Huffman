@@ -42,4 +42,9 @@ public class Util {
         return frequency;
     }
 
+    public static String HexToBinary(String Hex){
+       int i = Integer.parseInt(Hex,16);
+       String Bin = Integer.toBinaryString(i);
+       return Bin;
+      }
 }
