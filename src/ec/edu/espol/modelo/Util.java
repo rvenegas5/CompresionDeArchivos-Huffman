@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -13,7 +12,7 @@ import java.util.Map;
  */
 public class Util {
 
-    public static String leerTexto(String nombreArchivo) {
+    public String leerTexto(String nombreArchivo) {
         String linea = null;
 
         try {
@@ -28,7 +27,7 @@ public class Util {
         return linea;
     }
 
-    public static HashMap<Character, Integer> calcularFrecuencias(String texto) {
+    public HashMap<Character, Integer> calcularFrecuencias(String texto) {
         HashMap<Character, Integer> frequency = new HashMap<>();
 
         Character c;
@@ -43,8 +42,4 @@ public class Util {
         return frequency;
     }
 
-    public static void main(String[] args) {
-        HashMap<Character, Integer> frequency = calcularFrecuencias(leerTexto("./prueba.txt"));
-        System.out.println(frequency.toString());
-    }
 }
