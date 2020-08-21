@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.lang.StringBuilder;
 
 /**
  *
@@ -12,7 +13,7 @@ import java.util.HashMap;
  */
 public class Util {
 
-    public String leerTexto(String nombreArchivo) {
+    public static String leerTexto(String nombreArchivo) {
         String linea = null;
 
         try {
@@ -27,12 +28,12 @@ public class Util {
         return linea;
     }
 
-    public HashMap<Character, Integer> calcularFrecuencias(String texto) {
-        HashMap<Character, Integer> frequency = new HashMap<>();
+    public static HashMap<String, Integer> calcularFrecuencias(String texto) {
+        HashMap<String, Integer> frequency = new HashMap<>();
 
-        Character c;
+        String c;
         for (int i = 0; i < texto.length(); i++) {
-            c = texto.charAt(i);
+            c = texto.charAt(i) + "";
             if (!frequency.containsKey(c)) {
                 frequency.put(c, 1);
             } else {
@@ -42,9 +43,26 @@ public class Util {
         return frequency;
     }
 
-    public static String HexToBinary(String Hex){
-       int i = Integer.parseInt(Hex,16);
-       String Bin = Integer.toBinaryString(i);
-       return Bin;
-      }
+    public static String HexToBinary(String Hex) {
+        int i = Integer.parseInt(Hex, 16);
+        String Bin = Integer.toBinaryString(i);
+        return Bin;
+    }
+
+    public static String binarioHexadecimal(String binario) {
+        String resultado = "";
+        String completarHex = "";
+        while (binario.length() % 4 != 0) {
+            binario += "0";
+            completarHex += "-";
+        }
+
+        for (int i = 0; i < binario.length(); i += 4) {
+
+            int numero = Integer.parseInt(binario.substring(i, i + 4), 2);
+            String reprHex = Integer.toString(numero, 16);
+            resultado += reprHex;
+        }
+        return (resultado + completarHex).toUpperCase();
+    }
 }
