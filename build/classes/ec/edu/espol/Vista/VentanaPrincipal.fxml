@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="342.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controlador.VentanaPrincipalController">
+   <children>
+      <Label alignment="CENTER" layoutX="114.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="61.0" prefWidth="444.0" text="Comprimir Archivos .txt">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnSelectFile" layoutX="82.0" layoutY="90.0" mnemonicParsing="false" onAction="#selectFile" prefHeight="25.0" prefWidth="172.0" text="Selección de archivo" />
+      <Label fx:id="ruta" layoutX="272.0" layoutY="94.0" prefHeight="17.0" prefWidth="380.0" text="no ha seleccionado un archivo" />
+      <Button fx:id="btnComprimirArchivo" layoutX="139.0" layoutY="143.0" mnemonicParsing="false" onAction="#comprimirArchivo" prefHeight="25.0" prefWidth="172.0" text="Comprimir Archivo" />
+      <Button fx:id="btnSalir" layoutX="117.0" layoutY="306.0" mnemonicParsing="false" onAction="#salirVentanaPrincipal" prefHeight="25.0" prefWidth="103.0" text="Salir" />
+   </children>
+</AnchorPane>
