@@ -1,10 +1,17 @@
 package ec.edu.espol.modelo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -12,7 +19,7 @@ import java.util.HashMap;
  */
 public class Util {
 
-    public static String leerTexto(String nombreArchivo) {
+    public String leerTexto(String nombreArchivo) {
         String linea = null;
 
         try {
@@ -27,7 +34,7 @@ public class Util {
         return linea;
     }
 
-    public static HashMap<String, Integer> calcularFrecuencias(String texto) {
+    public HashMap<String, Integer> calcularFrecuencias(String texto) {
         HashMap<String, Integer> frequency = new HashMap<>();
 
         String c;
@@ -42,13 +49,13 @@ public class Util {
         return frequency;
     }
 
-    public static String HexToBinary(String Hex) {
+    public String HexToBinary(String Hex) {
         int i = Integer.parseInt(Hex, 16);
         String Bin = Integer.toBinaryString(i);
         return Bin;
     }
 
-    public static String binarioHexadecimal(String binario) {
+    public String binarioHexadecimal(String binario) {
         String resultado = "";
         String completarHex = "";
         while (binario.length() % 4 != 0) {
@@ -64,4 +71,62 @@ public class Util {
         }
         return (resultado + completarHex).toUpperCase();
     }
+
+    public void guardarTexto(String nombreArchivo, String texto, HashMap<String, String> mapa) {
+        File file = new File(nombreArchivo);
+        File file_compress = new File(nombreArchivo + "_compress.txt");
+        BufferedWriter bw;
+        PrintWriter escribir;
+        PrintWriter escribirCompress;
+        BufferedWriter bwCompress;
+        try {
+            if (file.exists()) {
+                file.delete();
+                file = new File(nombreArchivo);
+            }
+            bw = new BufferedWriter(new FileWriter(file, true));
+            escribir = new PrintWriter(bw);
+            bwCompress = new BufferedWriter(new FileWriter(file_compress, true));
+            escribirCompress = new PrintWriter(bwCompress);
+
+            // escribimos el nuevo texto en el archivo
+            escribir.println(texto);
+            escribir.flush();
+            escribir.close();
+            bw.close();
+
+            Iterator<HashMap.Entry<String, String>> itr = mapa.entrySet().iterator();
+
+            while (itr.hasNext()) {
+                HashMap.Entry<String, String> entry = itr.next();
+                escribirCompress.println(entry.getKey() + "|" + entry.getValue());
+            }
+            escribirCompress.flush();
+            escribirCompress.close();
+            bwCompress.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public HashMap<String, String> leerMapa(String nombreArchivo) {
+        HashMap<String, String> codigos = new HashMap<>();
+
+        try {
+            File file = new File(nombreArchivo);
+            FileReader fr;
+            fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] l = linea.split("\\|");
+                codigos.put(l[0], l[1]);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return codigos;
+    }
+
 }
