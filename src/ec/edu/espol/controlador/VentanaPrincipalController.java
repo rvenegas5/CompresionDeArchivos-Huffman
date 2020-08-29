@@ -26,6 +26,10 @@ public class VentanaPrincipalController implements Initializable {
     @FXML
     private Button btnSelectFile;
     @FXML
+    private Button btnComprimirArchivo;
+    @FXML
+    private Button btnDescomprimir;
+    @FXML
     private Button btnSalir;
     @FXML
     private Label ruta;
@@ -43,11 +47,10 @@ public class VentanaPrincipalController implements Initializable {
         try {
             FileChooser fil_chooser = new FileChooser();
             File file = fil_chooser.showOpenDialog(null);
-            
-            if (file != null) { 
-                    ruta.setText(file.getAbsolutePath()  
-                                        + "  selected"); 
-            } 
+
+            if (file != null) {
+                ruta.setText(file.getAbsolutePath());
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -58,6 +61,11 @@ public class VentanaPrincipalController implements Initializable {
         // Comprimir el archivo
     }
     
+    @FXML
+    private void desComprimirArchivo(ActionEvent event) {
+        // Comprimir el archivo
+    }
+
     @FXML
     private void salirVentanaPrincipal(ActionEvent event) {
         Stage stage = (Stage) this.btnSalir.getScene().getWindow();

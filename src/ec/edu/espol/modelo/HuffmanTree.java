@@ -9,6 +9,12 @@ package ec.edu.espol.modelo;
  *
  * @author WILLIAM
  */
+import com.sun.javafx.logging.PlatformLogger.Level;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.System.Logger;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +84,7 @@ public class HuffmanTree {
         return index;
     }
 
-    public void buildHuffmanTree(HashMap<String, Integer> mapa) {
+    public void calcularArbol(HashMap<String, Integer> mapa) {
         // count frequency of appearance of each character
         // and store it in a map
 
@@ -144,26 +150,47 @@ public class HuffmanTree {
     public static String codificar(String text, HashMap<String, String> huffmanCode) {
         String s = "";
         for (char c : text.toCharArray()) {
-            s = s + huffmanCode.get(c + ""); 
+            s = s + huffmanCode.get(c + "");
         }
         return s;
     }
 
-    // test
-//    public static void main(String[] args) {
-//        HashMap<String, Integer> mapa = new HashMap<>();
-//        mapa.put("a", 5);
-//        mapa.put("b", 9);
-//        mapa.put("c", 12);
-//        mapa.put("d", 13);
-//        mapa.put("e", 16);
-//        mapa.put("f", 45);
-//        Util u = new Util();
-//        HuffmanTree h = new HuffmanTree();
-//        h.buildHuffmanTree(u.calcularFrecuencias(u.leerTexto("./prueba.txt")));
-//        HashMap<String, String> m = h.calcularCodigos();
-//        System.out.println(m);
-//        u.guardarTexto("./prueba.txt", u.binarioHexadecimal(HuffmanTree.codificar(u.leerTexto("./prueba.txt"), m)), h.calcularCodigos());
-//        
-//    }
+    public static String decodificar(String texto, HashMap<String, String> mapa) {
+        String resultado = "";
+        String aux = "";
+        for (char c : texto.toCharArray()) {
+            aux += c + "";
+            for (Map.Entry<String, String> e : mapa.entrySet()) {
+                String key = e.getKey();
+                String value = e.getValue();
+                if (value.equals(aux)) {
+                    resultado += key;
+                    aux = "";
+                }
+            }
+        }
+        return resultado;
+    }
+
+    public static HashMap<String, String> obtenerCodigos(String archivo) {
+        HashMap<String, String> mapa = new HashMap<>();
+        try {
+            File file = new File(archivo);
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                String[] l = linea.split("\\|");
+
+                String key = l[0];
+                String value = l[1];
+                mapa.put(key, value);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return mapa;
+    }
+
 }

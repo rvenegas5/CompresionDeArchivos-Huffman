@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -26,7 +27,8 @@ public class Util {
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             linea = br.readLine();
-
+            br.close();
+            
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -48,10 +50,30 @@ public class Util {
         return frequency;
     }
 
-    public String HexToBinary(String Hex) {
-        int i = Integer.parseInt(Hex, 16);
-        String Bin = Integer.toBinaryString(i);
-        return Bin;
+    public String hexadecimalBinario(String hex) {
+        String valorHex = "";
+        int guion = 0;
+        for (char c : hex.toCharArray()) {
+            if (c != '-') {
+                valorHex += c + "";
+            } else {
+                guion++;
+            }
+        }
+        int len = valorHex.length() * 4;
+        String bin = new BigInteger(valorHex, 16).toString(2);
+
+        //left pad the string result with 0s if converting to BigInteger removes them.
+        if (bin.length() < len) {
+            int diff = len - bin.length();
+            String pad = "";
+            for (int i = 0; i < diff; ++i) {
+                pad = pad.concat("0");
+            }
+            bin = pad.concat(bin);
+        }
+        return bin.substring(0, bin.length() - guion);
+
     }
 
     public String binarioHexadecimal(String binario) {
@@ -82,6 +104,10 @@ public class Util {
             if (file.exists()) {
                 file.delete();
                 file = new File(nombreArchivo);
+            }
+            if (file_compress.exists()){
+                file_compress.delete();
+                file_compress = new File(nombreArchivo + "_compress.txt");
             }
             bw = new BufferedWriter(new FileWriter(file, true));
             escribir = new PrintWriter(bw);
@@ -128,4 +154,28 @@ public class Util {
         return codigos;
     }
 
+//    public static void main(String[] args) {
+//        /*Util u = new Util();
+//        HuffmanTree h = new HuffmanTree();
+//        h.calcularArbol(u.calcularFrecuencias(u.leerTexto("./prueba.txt")));
+//        HashMap<String, String> m = h.calcularCodigos();
+//        String cod = HuffmanTree.codificar(u.leerTexto("./prueba.txt"), m);
+//        String codHex = u.binarioHexadecimal(cod);
+//        System.out.println(codHex);
+//        Util u1 = new Util();
+//        u.guardarTexto("./prueba.txt", codHex, m);*/
+//
+//        //String s = HuffmanTree.codificar("AAAAAABBBBBBBBCCCCCDDDDDDDEEEEEEFFFFFFFFGGGGGGGGGGG", m);
+//        //System.out.println(s.length());
+//        //String e = "0010010010010010011101101101101101101101100000000000000001011011011011011011011001001001001001001111111111111111111111110101010101010101010101";
+//        //System.out.println(e.length());
+//        //u.guardarTexto("./prueba.txt", u.binarioHexadecimal(e), m);
+//        // String s =  decodificar(u.leerTexto("./prueba.txt"), m);
+//        //System.out.println(decodificar(u.HexToBinary(u.leerTexto("./prueba.txt")), m));
+//        
+//        Util u = new Util();
+//        String s = HuffmanTree.decodificar(u.hexadecimalBinario(u.leerTexto("./prueba.txt")), HuffmanTree.obtenerCodigos("./prueba.txt_compress.txt"));
+//        System.out.println(s);
+//        u.guardarTexto("./prueba.txt", s, HuffmanTree.obtenerCodigos("./prueba.txt_compress.txt"));
+//    }
 }
