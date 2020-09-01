@@ -17,7 +17,7 @@
          </font>
       </Label>
       <Button fx:id="btnSelectFile" layoutX="14.0" layoutY="99.0" mnemonicParsing="false" onAction="#selectFile" prefHeight="25.0" prefWidth="172.0" text="Selección de archivo" />
-      <Label fx:id="ruta" layoutX="195.0" layoutY="103.0" prefHeight="17.0" prefWidth="470.0" text="no ha seleccionado un archivo" />
+      <Label fx:id="ruta" layoutX="208.0" layoutY="103.0" prefHeight="17.0" prefWidth="470.0" text="no ha seleccionado un archivo" />
       <Button fx:id="btnComprimirArchivo" layoutX="100.0" layoutY="209.0" mnemonicParsing="false" onAction="#comprimirArchivo" prefHeight="25.0" prefWidth="172.0" text="Comprimir Archivo" />
       <Button fx:id="btnSalir" layoutX="117.0" layoutY="306.0" mnemonicParsing="false" onAction="#salirVentanaPrincipal" prefHeight="25.0" prefWidth="103.0" text="Salir" />
       <Button fx:id="btnDescomprimirArchivo" layoutX="357.0" layoutY="209.0" mnemonicParsing="false" onAction="#desComprimirArchivo" prefHeight="25.0" prefWidth="172.0" text="Descomprimir Archivo" />

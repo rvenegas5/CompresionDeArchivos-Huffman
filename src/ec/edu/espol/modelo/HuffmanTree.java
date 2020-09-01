@@ -187,6 +187,8 @@ public class HuffmanTree {
                 String value = l[1];
                 mapa.put(key, value);
             }
+            br.close();
+            file.delete();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
