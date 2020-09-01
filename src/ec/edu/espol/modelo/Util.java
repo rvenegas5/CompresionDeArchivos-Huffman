@@ -20,19 +20,22 @@ import java.util.logging.Logger;
 public class Util {
 
     public String leerTexto(String nombreArchivo) {
-        String linea = null;
+        String line = "";
 
         try {
             File file = new File(nombreArchivo);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            linea = br.readLine();
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                line += (String)linea;
+            }
             br.close();
-            
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        return linea;
+        System.out.println(line);
+        return line;
     }
 
     public HashMap<String, Integer> calcularFrecuencias(String texto) {
