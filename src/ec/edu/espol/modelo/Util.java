@@ -21,20 +21,27 @@ public class Util {
 
     public String leerTexto(String nombreArchivo) {
         String line = "";
-
+        File file = new File(nombreArchivo);
+        BufferedReader br = null;
         try {
-            File file = new File(nombreArchivo);
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
+            br = new BufferedReader(new FileReader(file));
             String linea;
             while ((linea = br.readLine()) != null) {
-                line += (String)linea;
+                line += (String) linea;
             }
             br.close();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (null != br) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        System.out.println(line);
+
         return line;
     }
 
@@ -66,7 +73,6 @@ public class Util {
         int len = valorHex.length() * 4;
         String bin = new BigInteger(valorHex, 16).toString(2);
 
-        //left pad the string result with 0s if converting to BigInteger removes them.
         if (bin.length() < len) {
             int diff = len - bin.length();
             String pad = "";
@@ -99,16 +105,17 @@ public class Util {
     public void guardarTexto(String nombreArchivo, String texto, HashMap<String, String> mapa) {
         File file = new File(nombreArchivo);
         File file_compress = new File(nombreArchivo + "_compress.txt");
-        BufferedWriter bw;
-        PrintWriter escribir;
-        PrintWriter escribirCompress;
-        BufferedWriter bwCompress;
+        BufferedWriter bw = null;
+        BufferedWriter bwCompress = null;
+        PrintWriter escribir = null;
+        PrintWriter escribirCompress = null;
+
         try {
             if (file.exists()) {
                 file.delete();
                 file = new File(nombreArchivo);
             }
-            if (file_compress.exists()){
+            if (file_compress.exists()) {
                 file_compress.delete();
                 file_compress = new File(nombreArchivo + "_compress.txt");
             }
@@ -117,11 +124,8 @@ public class Util {
             bwCompress = new BufferedWriter(new FileWriter(file_compress, true));
             escribirCompress = new PrintWriter(bwCompress);
 
-            // escribimos el nuevo texto en el archivo
             escribir.println(texto);
             escribir.flush();
-            escribir.close();
-            bw.close();
 
             Iterator<HashMap.Entry<String, String>> itr = mapa.entrySet().iterator();
 
@@ -130,10 +134,25 @@ public class Util {
                 escribirCompress.println(entry.getKey() + "|" + entry.getValue());
             }
             escribirCompress.flush();
-            escribirCompress.close();
-            bwCompress.close();
+
         } catch (IOException ex) {
             Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (null != bw) {
+                    bw.close();
+                }
+                if (null != bwCompress) {
+                    bwCompress.close();
+                }
+                if (null != escribir)
+                    escribir.close();
+                if (null != escribirCompress)
+                    escribirCompress.close();
+            } catch (IOException e2) {
+                System.out.println(e2.getMessage());
+            }
+
         }
 
     }
@@ -157,28 +176,4 @@ public class Util {
         return codigos;
     }
 
-//    public static void main(String[] args) {
-//        /*Util u = new Util();
-//        HuffmanTree h = new HuffmanTree();
-//        h.calcularArbol(u.calcularFrecuencias(u.leerTexto("./prueba.txt")));
-//        HashMap<String, String> m = h.calcularCodigos();
-//        String cod = HuffmanTree.codificar(u.leerTexto("./prueba.txt"), m);
-//        String codHex = u.binarioHexadecimal(cod);
-//        System.out.println(codHex);
-//        Util u1 = new Util();
-//        u.guardarTexto("./prueba.txt", codHex, m);*/
-//
-//        //String s = HuffmanTree.codificar("AAAAAABBBBBBBBCCCCCDDDDDDDEEEEEEFFFFFFFFGGGGGGGGGGG", m);
-//        //System.out.println(s.length());
-//        //String e = "0010010010010010011101101101101101101101100000000000000001011011011011011011011001001001001001001111111111111111111111110101010101010101010101";
-//        //System.out.println(e.length());
-//        //u.guardarTexto("./prueba.txt", u.binarioHexadecimal(e), m);
-//        // String s =  decodificar(u.leerTexto("./prueba.txt"), m);
-//        //System.out.println(decodificar(u.HexToBinary(u.leerTexto("./prueba.txt")), m));
-//        
-//        Util u = new Util();
-//        String s = HuffmanTree.decodificar(u.hexadecimalBinario(u.leerTexto("./prueba.txt")), HuffmanTree.obtenerCodigos("./prueba.txt_compress.txt"));
-//        System.out.println(s);
-//        u.guardarTexto("./prueba.txt", s, HuffmanTree.obtenerCodigos("./prueba.txt_compress.txt"));
-//    }
 }
