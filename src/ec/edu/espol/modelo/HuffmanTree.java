@@ -1,4 +1,3 @@
-
 package ec.edu.espol.modelo;
 
 import java.io.BufferedReader;
@@ -75,7 +74,7 @@ public class HuffmanTree {
     }
 
     public void calcularArbol(HashMap<String, Integer> mapa) {
-        
+
         PriorityQueue<Node> pq;
         pq = new PriorityQueue<>(Comparator.comparingInt(l -> l.freq));
 
@@ -134,7 +133,7 @@ public class HuffmanTree {
         File file = new File(archivo);
         BufferedReader br = null;
         try {
-            
+
             br = new BufferedReader(new FileReader(file));
             String linea;
 
@@ -145,15 +144,18 @@ public class HuffmanTree {
                 String value = l[1];
                 mapa.put(key, value);
             }
-            br.close();
-            file.delete();
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        }finally{
-            try{
-                if (br != null)
+        } finally {
+            try {
+                if (br != null) {
                     br.close();
-            }catch(IOException e){
+                }
+                if (file.delete()) {
+                    System.out.println(file.getName() + " ha sido eliminado");
+                }
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }

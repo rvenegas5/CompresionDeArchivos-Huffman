@@ -8,7 +8,6 @@ package ec.edu.espol.controlador;
 import ec.edu.espol.modelo.HuffmanTree;
 import ec.edu.espol.modelo.Util;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -28,12 +27,7 @@ import javafx.stage.Stage;
  */
 public class VentanaPrincipalController implements Initializable {
 
-    @FXML
-    private Button btnSelectFile;
-    @FXML
-    private Button btnComprimirArchivo;
-    @FXML
-    private Button btnDescomprimir;
+    
     @FXML
     private Button btnSalir;
     @FXML
@@ -44,7 +38,6 @@ public class VentanaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     @FXML
@@ -96,7 +89,8 @@ public class VentanaPrincipalController implements Initializable {
         
         Util util = new Util();
         String path = ruta.getText();
-        if(path.equals("no ha seleccionado un archivo")){
+        String validarPath = "no ha seleccionado un archivo";
+        if(path.equals(validarPath)){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setTitle("ERROR");

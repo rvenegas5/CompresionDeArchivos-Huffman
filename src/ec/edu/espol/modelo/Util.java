@@ -112,12 +112,15 @@ public class Util {
 
         try {
             if (file.exists()) {
-                file.delete();
-                file = new File(nombreArchivo);
+                if (file.delete()) {
+                    file = new File(nombreArchivo);
+                }
             }
             if (file_compress.exists()) {
-                file_compress.delete();
-                file_compress = new File(nombreArchivo + "_compress.txt");
+
+                if (file_compress.delete()) {
+                    file_compress = new File(nombreArchivo + "_compress.txt");
+                }
             }
             bw = new BufferedWriter(new FileWriter(file, true));
             escribir = new PrintWriter(bw);
@@ -145,10 +148,12 @@ public class Util {
                 if (null != bwCompress) {
                     bwCompress.close();
                 }
-                if (null != escribir)
+                if (null != escribir) {
                     escribir.close();
-                if (null != escribirCompress)
+                }
+                if (null != escribirCompress) {
                     escribirCompress.close();
+                }
             } catch (IOException e2) {
                 System.out.println(e2.getMessage());
             }
@@ -160,11 +165,10 @@ public class Util {
     public HashMap<String, String> leerMapa(String nombreArchivo) {
         HashMap<String, String> codigos = new HashMap<>();
 
+        File file = new File(nombreArchivo);
+        BufferedReader br = null;
         try {
-            File file = new File(nombreArchivo);
-            FileReader fr;
-            fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
+            br = new BufferedReader(new FileReader(file));
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] l = linea.split("\\|");
@@ -172,6 +176,14 @@ public class Util {
             }
         } catch (IOException ex) {
             Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (null != br) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return codigos;
     }
