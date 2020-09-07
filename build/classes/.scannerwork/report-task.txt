@@ -1,0 +1,6 @@
+projectKey=Grupo5:Proyecto-HuffmanV3.0
+serverUrl=http://200.9.176.59:9000
+serverVersion=7.7.0.23042
+dashboardUrl=http://200.9.176.59:9000/dashboard?id=Grupo5%3AProyecto-HuffmanV3.0
+ceTaskId=AXRlea-U2njepCnyV4k4
+ceTaskUrl=http://200.9.176.59:9000/api/ce/task?id=AXRlea-U2njepCnyV4k4
